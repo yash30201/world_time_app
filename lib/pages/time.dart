@@ -8,59 +8,55 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Time extends StatefulWidget {
   final Location location;
-  Time({this.location});//location class for the location url
+  Time({this.location}); //location class for the location url
   @override
   _TimeState createState() => _TimeState(location: location);
 }
 
 class _TimeState extends State<Time> {
-
   Location location;
-  _TimeState({@required this.location});        //this allows data passing in page
+  _TimeState({@required this.location}); //this allows data passing in page
   String time = 'loading';
 
   void setupWorldTime() async {
-    try{
-      WorldTime now = WorldTime(continent: location.continent, city: location.city);
-      await now.getTime(); //SO that the program waits for the data to receive data
+    try {
+      WorldTime now =
+          WorldTime(continent: location.continent, city: location.city);
+      await now
+          .getTime(); //SO that the program waits for the data to receive data
       time = now.time;
-      print('returned now....city :${location.city},  conti:${location.continent}, time:$time');
 
-      Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false,arguments:{
-        'city' : location.city,
-        'continent' : location.continent,
-        'time' : time,
-        'day' : now.day
-      } );
-    }
-    catch(e){
-    print('CAUGHT ERROR : $e');
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/', (Route<dynamic> route) => false,
+          arguments: {
+            'city': location.city,
+            'continent': location.continent,
+            'time': time,
+            'day': now.day
+          });
+    } catch (e) {
+      print('CAUGHT ERROR : $e');
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setupWorldTime();
   }
 
   @override
-
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.blue[300],
+        color: Colors.white,
         child: Center(
-            child: SpinKitCubeGrid(
-              color: Colors.white,
-              size: 50.0,
-            ),
-      )
-      )
+          child: SpinKitCubeGrid(
+            color: Colors.grey,
+            size: 50.0,
+          ),
+        ),
+      ),
     );
   }
 }
-
-
